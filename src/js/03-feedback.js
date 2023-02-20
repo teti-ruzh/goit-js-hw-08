@@ -6,7 +6,7 @@ const form = document.querySelector('.feedback-form');
 const email = document.querySelector('input[type="email"]');
 const message = document.querySelector('textarea[name="message"]');
 
-const formData = {}
+let formData = {}
 
 form.addEventListener('input', throttle(onFormInput, 500));
 form.addEventListener('submit', onFormSubmit);
@@ -18,6 +18,8 @@ function onFormSubmit(event) {
     event.currentTarget.reset();
     console.log(JSON.parse(localStorage.getItem(STORAGE_KEY)));
     localStorage.removeItem(STORAGE_KEY);
+    
+    formData = {};
     };
 
 function onFormInput(event) {
@@ -28,8 +30,9 @@ function onFormInput(event) {
 function populateFormData() {
 const savedFormData = JSON.parse(localStorage.getItem(STORAGE_KEY));
 if(savedFormData) {
-    email.value = savedFormData.email;
-    message.value = savedFormData.message;
+    const formKeys = Object.keys(savedFormData);
+    formKeys.map(element => {
+    document.querySelector(`[name='${element}']`).value = savedFormData[element]});
 }
 }
 
