@@ -8,10 +8,11 @@ const message = document.querySelector('textarea[name="message"]');
 
 let formData = {}
 
+populateFormData();
+
 form.addEventListener('input', throttle(onFormInput, 500));
 form.addEventListener('submit', onFormSubmit);
 
-populateFormData();
 
 function onFormSubmit(event) {
     event.preventDefault();
@@ -24,7 +25,7 @@ function onFormSubmit(event) {
 
 function onFormInput(event) {
     formData[event.target.name] = event.target.value;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 };
 
 function populateFormData() {
@@ -32,7 +33,9 @@ const savedFormData = JSON.parse(localStorage.getItem(STORAGE_KEY));
 if(savedFormData) {
     const formKeys = Object.keys(savedFormData);
     formKeys.map(element => {
-    document.querySelector(`[name='${element}']`).value = savedFormData[element]});
+    document.querySelector(`[name='${element}']`).value = savedFormData[element];
+    formData[element] = savedFormData[element];
+});
 }
 }
 
